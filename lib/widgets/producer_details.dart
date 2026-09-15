@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../core/theme/app_theme.dart';
-import '../models/company.dart';
+import '../models/producer.dart';
 
-class CompanyDetails extends StatelessWidget {
-  final Company company;
+class ProducerDetails extends StatelessWidget {
+  final Producer producer;
   final bool compact;
 
-  const CompanyDetails({
+  const ProducerDetails({
     super.key,
-    required this.company,
+    required this.producer,
     this.compact = false,
   });
 
@@ -30,7 +30,7 @@ class CompanyDetails extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(16),
                 child: Image.network(
-                  company.logoUrl,
+                  producer.logoUrl,
                   width: 72,
                   height: 72,
                   fit: BoxFit.cover,
@@ -55,14 +55,14 @@ class CompanyDetails extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            company.name,
+                            producer.name,
                             style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w800,
                             ),
                           ),
                         ),
-                        if (company.verified)
+                        if (producer.verified)
                           const Icon(
                             Icons.verified,
                             color: AppTheme.primary,
@@ -72,7 +72,7 @@ class CompanyDetails extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      company.category,
+                      producer.category,
                       style: TextStyle(color: Colors.grey.shade600),
                     ),
                     const SizedBox(height: 5),
@@ -84,7 +84,9 @@ class CompanyDetails extends StatelessWidget {
                           size: 18,
                         ),
                         const SizedBox(width: 4),
-                        Text('${company.rating} • ${company.reviews} reviews'),
+                        Text(
+                          '${producer.rating} • ${producer.reviews} reviews',
+                        ),
                       ],
                     ),
                   ],
@@ -94,14 +96,14 @@ class CompanyDetails extends StatelessWidget {
           ),
           const SizedBox(height: 22),
           Text(
-            company.description,
+            producer.description,
             style: TextStyle(height: 1.55, color: Colors.grey.shade700),
           ),
           const SizedBox(height: 18),
           Wrap(
             spacing: 8,
             runSpacing: 8,
-            children: company.highlights
+            children: producer.highlights
                 .map(
                   (x) => Chip(
                     avatar: const Icon(
@@ -118,19 +120,19 @@ class CompanyDetails extends StatelessWidget {
           _InfoRow(
             icon: Icons.location_on_outlined,
             title: 'Address',
-            value: company.address,
+            value: producer.address,
           ),
           _InfoRow(
             icon: Icons.phone_outlined,
             title: 'Phone',
-            value: company.phone,
+            value: producer.phone,
           ),
           const SizedBox(height: 20),
           Row(
             children: [
               Expanded(
                 child: FilledButton.icon(
-                  onPressed: () => _open('tel:${company.phone}'),
+                  onPressed: () => _open('tel:${producer.phone}'),
                   icon: const Icon(Icons.call),
                   label: const Text('Call'),
                 ),
@@ -138,7 +140,7 @@ class CompanyDetails extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: OutlinedButton.icon(
-                  onPressed: () => _open(company.website),
+                  onPressed: () => _open(producer.website),
                   icon: const Icon(Icons.language),
                   label: const Text('Website'),
                 ),

@@ -23,7 +23,7 @@ class MobileBottomNavigation extends StatelessWidget {
         NavigationDestination(
           icon: Icon(Icons.apartment_outlined),
           selectedIcon: Icon(Icons.apartment),
-          label: 'Companies',
+          label: 'Producers',
         ),
         NavigationDestination(
           icon: Icon(Icons.person_outline),

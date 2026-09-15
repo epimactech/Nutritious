@@ -3,16 +3,16 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/responsive.dart';
 import '../../data/company_repository.dart';
-import '../../models/company.dart';
+import '../../models/producer.dart';
 import '../../services/location_service.dart';
 import '../../widgets/app_sidebar.dart';
-import '../../widgets/company_card.dart';
-import '../../widgets/company_details.dart';
-import '../../widgets/company_details_modal.dart';
+import '../../widgets/producer_card.dart';
+import '../../widgets/producer_details.dart';
+import '../../widgets/producer_details_modal.dart';
 import '../../widgets/map_view.dart';
 import '../../widgets/mobile_bottom_navigation.dart';
 import '../account/account_screen.dart';
-import '../companies/companies_screen.dart';
+import '../producers/producers_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,10 +21,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final CompanyRepository repository = MockCompanyRepository();
+  final CompanyRepository repository = ApiCompanyRepository(
+    baseUrl: 'http://167.86.66.79:4000',
+  );
   final LocationService locationService = LocationService();
-  List<Company> companies = [];
-  Company? selected;
+  List<Producer> producers = [];
+  Producer? selected;
   LatLng? userLocation;
   int navIndex = 0;
   bool loading = true;
@@ -41,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
       final data = await repository.getCompanies();
       if (mounted)
         setState(() {
-          companies = data;
+          producers = data;
           loading = false;
         });
     } catch (_) {
@@ -57,9 +59,10 @@ class _HomeScreenState extends State<HomeScreen> {
       );
   }
 
-  void _select(Company company) {
-    setState(() => selected = company);
-    if (Responsive.isMobile(context)) showCompanyDetailsModal(context, company);
+  void _select(Producer producer) {
+    setState(() => selected = producer);
+    if (Responsive.isMobile(context))
+      showProducerDetailsModal(context, producer);
   }
 
   @override
@@ -73,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _mobile() {
     final body = switch (navIndex) {
       0 => _mobileMap(),
-      1 => CompaniesScreen(companies: companies, onSelect: _select),
+      1 => ProducersScreen(producers: producers, onSelect: _select),
       _ => const AccountScreen(),
     };
     return Scaffold(
@@ -89,9 +92,9 @@ class _HomeScreenState extends State<HomeScreen> {
     children: [
       Positioned.fill(
         child: MapView(
-          companies: companies,
-          selectedCompany: selected,
-          onCompanySelected: _select,
+          producers: producers,
+          selectedProducer: selected,
+          onProducerSelected: _select,
         ),
       ),
       Positioned(
@@ -130,17 +133,17 @@ class _HomeScreenState extends State<HomeScreen> {
           right: 16,
           child: Card(
             child: Column(
-              children: companies
+              children: producers
                   .where(
-                    (c) => c.name.toLowerCase().contains(query.toLowerCase()),
+                    (p) => p.name.toLowerCase().contains(query.toLowerCase()),
                   )
                   .take(5)
                   .map(
-                    (c) => CompanyCard(
-                      company: c,
+                    (p) => ProducerCard(
+                      producer: p,
                       onTap: () {
                         setState(() => query = '');
-                        _select(c);
+                        _select(p);
                       },
                     ),
                   )
@@ -166,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: navIndex == 0
               ? _desktopMap()
               : navIndex == 1
-              ? CompaniesScreen(companies: companies, onSelect: _select)
+              ? ProducersScreen(producers: producers, onSelect: _select)
               : const AccountScreen(),
         ),
       ],
@@ -181,11 +184,11 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Positioned.fill(
               child: MapView(
-                companies: companies,
+                producers: producers,
 
-                selectedCompany: selected,
-                onCompanySelected: (Company value) {
-                  print('Selected company: ${value.name}');
+                selectedProducer: selected,
+                onProducerSelected: (Producer value) {
+                  print('Selected producer: ${value.name}');
                   setState(() {
                     selected = value;
                   });
@@ -223,23 +226,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: 420,
                 child: Card(
                   child: Column(
-                    children: companies
+                    children: producers
                         .where(
-                          (c) =>
-                              c.name.toLowerCase().contains(
+                          (p) =>
+                              p.name.toLowerCase().contains(
                                 query.toLowerCase(),
                               ) ||
-                              c.category.toLowerCase().contains(
+                              p.category.toLowerCase().contains(
                                 query.toLowerCase(),
                               ),
                         )
                         .take(5)
                         .map(
-                          (c) => CompanyCard(
-                            company: c,
+                          (p) => ProducerCard(
+                            producer: p,
                             onTap: () => setState(() {
                               query = '';
-                              selected = c;
+                              selected = p;
                             }),
                           ),
                         )
@@ -258,7 +261,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: selected == null
             ? _desktopEmptyDetails()
-            : CompanyDetails(company: selected!),
+            : ProducerDetails(producer: selected!),
       ),
     ],
   );

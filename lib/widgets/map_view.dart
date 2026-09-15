@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../models/company.dart';
+import '../models/producer.dart';
 
 class MapView extends StatefulWidget {
-  final List<Company> companies;
-  final Company? selectedCompany;
-  final ValueChanged<Company> onCompanySelected;
+  final List<Producer> producers;
+  final Producer? selectedProducer;
+  final ValueChanged<Producer> onProducerSelected;
 
   const MapView({
     super.key,
-    required this.companies,
-    required this.selectedCompany,
-    required this.onCompanySelected,
+    required this.producers,
+    required this.selectedProducer,
+    required this.onProducerSelected,
   });
 
   @override
@@ -26,23 +26,22 @@ class _MapViewState extends State<MapView> {
 
   @override
   Widget build(BuildContext context) {
-    final markers = widget.companies.map((company) {
-      final selected = widget.selectedCompany?.id == company.id;
+    final markers = widget.producers.map((producer) {
+      final selected = widget.selectedProducer?.id == producer.id;
 
       return Marker(
-        markerId: MarkerId(company.id),
-        position: LatLng(company.latitude, company.longitude),
+        markerId: MarkerId(producer.id),
+        position: LatLng(producer.latitude, producer.longitude),
         infoWindow: InfoWindow(
-          title: company.name,
-          snippet: '${company.category} • ★ ${company.rating.toStringAsFixed(1)}',
+          title: producer.name,
+          snippet:
+              '${producer.category} • ★ ${producer.rating.toStringAsFixed(1)}',
         ),
         icon: BitmapDescriptor.defaultMarkerWithHue(
-          selected
-              ? BitmapDescriptor.hueOrange
-              : BitmapDescriptor.hueGreen,
+          selected ? BitmapDescriptor.hueOrange : BitmapDescriptor.hueGreen,
         ),
         onTap: () {
-          widget.onCompanySelected(company);
+          widget.onProducerSelected(producer);
         },
       );
     }).toSet();
@@ -63,7 +62,10 @@ class _MapViewState extends State<MapView> {
         _controller = controller;
       },
       onTap: (_) {
-        // Keep the selected company on web; mobile can close its modal.
+        // Keep the selected producer in the list view when tapping on the map
+        widget.onProducerSelected(
+          widget.selectedProducer ?? widget.producers.first,
+        );
       },
     );
   }

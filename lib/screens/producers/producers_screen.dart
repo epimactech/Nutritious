@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import '../../models/company.dart';
-import '../../widgets/company_card.dart';
+import '../../models/producer.dart';
+import '../../widgets/producer_card.dart';
 
-class CompaniesScreen extends StatefulWidget {
-  final List<Company> companies;
-  final ValueChanged<Company> onSelect;
-  const CompaniesScreen({
+class ProducersScreen extends StatefulWidget {
+  final List<Producer> producers;
+  final ValueChanged<Producer> onSelect;
+  const ProducersScreen({
     super.key,
-    required this.companies,
+    required this.producers,
     required this.onSelect,
   });
 
   @override
-  State<CompaniesScreen> createState() => _CompaniesScreenState();
+  State<ProducersScreen> createState() => _ProducersScreenState();
 }
 
-class _CompaniesScreenState extends State<CompaniesScreen> {
+class _ProducersScreenState extends State<ProducersScreen> {
   String query = '';
   String category = 'All';
 
@@ -23,9 +23,9 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
   Widget build(BuildContext context) {
     final categories = [
       'All',
-      ...{for (final c in widget.companies) c.category},
+      ...{for (final c in widget.producers) c.category},
     ];
-    final filtered = widget.companies.where((c) {
+    final filtered = widget.producers.where((c) {
       final matchesText =
           c.name.toLowerCase().contains(query.toLowerCase()) ||
           c.category.toLowerCase().contains(query.toLowerCase());
@@ -40,7 +40,7 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
             onChanged: (v) => setState(() => query = v),
             decoration: const InputDecoration(
               prefixIcon: Icon(Icons.search),
-              hintText: 'Search companies...',
+              hintText: 'Search producer...',
             ),
           ),
         ),
@@ -65,8 +65,8 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
             itemCount: filtered.length,
             separatorBuilder: (_, __) => const SizedBox(height: 8),
             itemBuilder: (_, i) => Card(
-              child: CompanyCard(
-                company: filtered[i],
+              child: ProducerCard(
+                producer: filtered[i],
                 onTap: () => widget.onSelect(filtered[i]),
               ),
             ),

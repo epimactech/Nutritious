@@ -41,7 +41,7 @@ class AppSidebar extends StatelessWidget {
               ),
             ),
             _item(Icons.map_outlined, 'Map', 0),
-            _item(Icons.apartment_outlined, 'Companies', 1),
+            _item(Icons.apartment_outlined, 'Producers', 1),
             _item(Icons.person_outline, 'Account', 2),
             const Spacer(),
             Padding(

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import '../core/theme/app_theme.dart';
-import '../models/company.dart';
+import '../models/producer.dart';
 
-class CompanyCard extends StatelessWidget {
-  final Company company;
+class ProducerCard extends StatelessWidget {
+  final Producer producer;
   final VoidCallback onTap;
 
-  const CompanyCard({super.key, required this.company, required this.onTap});
+  const ProducerCard({super.key, required this.producer, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class CompanyCard extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.network(
-                company.logoUrl,
+                producer.logoUrl,
                 width: 64,
                 height: 64,
                 fit: BoxFit.cover,
@@ -45,13 +45,13 @@ class CompanyCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          company.name,
+                          producer.name,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(fontWeight: FontWeight.w700),
                         ),
                       ),
-                      if (company.verified)
+                      if (producer.verified)
                         const Icon(
                           Icons.verified,
                           size: 17,
@@ -61,7 +61,7 @@ class CompanyCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    company.category,
+                    producer.category,
                     style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
                   ),
                   const SizedBox(height: 7),
@@ -74,7 +74,7 @@ class CompanyCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 3),
                       Text(
-                        '${company.rating} (${company.reviews})',
+                        '${producer.rating} (${producer.reviews})',
                         style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
@@ -82,10 +82,10 @@ class CompanyCard extends StatelessWidget {
                       ),
                       const Spacer(),
                       Text(
-                        company.openNow ? 'Open' : 'Closed',
+                        producer.openNow ? 'Open' : 'Closed',
                         style: TextStyle(
                           fontSize: 12,
-                          color: company.openNow
+                          color: producer.openNow
                               ? AppTheme.primary
                               : Colors.grey.shade600,
                           fontWeight: FontWeight.w600,
