@@ -22,7 +22,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final CompanyRepository repository = ApiCompanyRepository(
-    baseUrl: 'http://167.86.66.79:4000',
+    baseUrl: 'https://footballfraternity.co.tz',
   );
   final LocationService locationService = LocationService();
   List<Producer> producers = [];
@@ -188,7 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 selectedProducer: selected,
                 onProducerSelected: (Producer value) {
-                  print('Selected producer: ${value.name}');
+                  print('Selected producers: ${value.name}');
                   setState(() {
                     selected = value;
                   });
@@ -207,7 +207,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   onChanged: (v) => setState(() => query = v),
                   decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.search),
-                    hintText: 'Search companies, categories or areas...',
+                    hintText: 'Search producers, categories or areas...',
                     filled: true,
                     border: InputBorder.none,
                   ),
@@ -287,12 +287,12 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           const SizedBox(height: 18),
           const Text(
-            'Select a company',
+            'Select a producer to view details',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
           ),
           const SizedBox(height: 8),
           Text(
-            'Tap any map marker to see company information, nutrition highlights and contact options.',
+            'Tap any map marker to see producer information, nutrition highlights and contact options.',
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.grey, height: 1.45),
           ),
@@ -318,7 +318,7 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(width: 10),
           const Expanded(
             child: Text(
-              'Tap a marker to explore a company',
+              'Tap a marker to explore a producer',
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nutrious/screens/producer_registration_screen.dart';
 import '../../models/producer.dart';
 import '../../widgets/producer_card.dart';
 
@@ -34,15 +35,32 @@ class _ProducersScreenState extends State<ProducersScreen> {
 
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
-          child: TextField(
-            onChanged: (v) => setState(() => query = v),
-            decoration: const InputDecoration(
-              prefixIcon: Icon(Icons.search),
-              hintText: 'Search producer...',
+        Row(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
+                child: TextField(
+                  onChanged: (v) => setState(() => query = v),
+                  decoration: const InputDecoration(
+                    prefixIcon: Icon(Icons.search),
+                    hintText: 'Search producer...',
+                  ),
+                ),
+              ),
             ),
-          ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const ProducerRegistrationScreen(),
+                  ),
+                );
+              },
+              child: Text("New Producer"),
+            ),
+          ],
         ),
         SizedBox(
           height: 42,
