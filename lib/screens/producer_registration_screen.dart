@@ -24,7 +24,7 @@ class _ProducerRegistrationScreenState
   // API
   // ---------------------------------------------------------------------------
 
-  static const String _apiBaseUrl = 'http://167.86.66.79:4000';
+  static const String _apiBaseUrl = 'https://footballfraternity.co.tz';
 
   // ---------------------------------------------------------------------------
   // Basic information
@@ -515,7 +515,7 @@ class _ProducerRegistrationScreenState
 
     try {
       final response = await http.post(
-        Uri.parse('$_apiBaseUrl/api/producers'),
+        Uri.parse('$_apiBaseUrl/api/add_producer'),
 
         headers: const {
           'Content-Type': 'application/json',

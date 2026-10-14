@@ -16,6 +16,11 @@ class MobileBottomNavigation extends StatelessWidget {
       onDestinationSelected: onChanged,
       destinations: const [
         NavigationDestination(
+          icon: Icon(Icons.dashboard_outlined),
+          selectedIcon: Icon(Icons.dashboard),
+          label: 'Dashboard',
+        ),
+        NavigationDestination(
           icon: Icon(Icons.map_outlined),
           selectedIcon: Icon(Icons.map),
           label: 'Map',
